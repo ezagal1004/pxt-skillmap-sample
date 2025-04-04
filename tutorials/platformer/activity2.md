@@ -1,237 +1,136 @@
+# Activity 2: Create Falling Apples
 
-# Tiles and Camera
+## Introduction @showdialog
 
+![Game screenshot](/static/skillmap/apple-catcher/apples.png)
 
-```jres
-{
-    "transparency16": {
-        "data": "hwQQABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-        "mimeType": "image/x-mkcd-f4",
-        "tilemapTile": true
-    },
-    "tile1": {
-        "data": "hwQQABAAAADMzMzMzMzMzLy7u7u7u7vLvMvMzMzMvMu8vMzMzMzLy7zMy8zMvMzLvMy8zMzLzMu8zMzLvMzMy7zMzLzLzMzLvMzMvMvMzMu8zMzLvMzMy7zMvMzMy8zLvMzLzMy8zMu8vMzMzMzLy7zLzMzMzLzLvLu7u7u7u8vMzMzMzMzMzA==",
-        "mimeType": "image/x-mkcd-f4",
-        "tilemapTile": true
-    },
-    "tile2": {
-        "data": "hwQQABAAAAAiIiIiIiIiIkJEREREREQkQiIiIiIiIiRCIiIiIiIiJEIiREQiIiIkQkJERCIkJCRCQiREJCQkJEJCREQiQiIkQkJERCRCIiRCQiREIiQkJEIiREQkJCQkQiIiIiIiIiRCIiIiIiIiJEIiIiIiIiIkQkRERERERCQiIiIiIiIiIg==",
-        "mimeType": "image/x-mkcd-f4",
-        "tilemapTile": true
-    },
-    "tile3": {
-        "data": "hwQQABAAAAB3d3d3d3d3d1dVVVVVVVV1V3d3d3d3d3VXd3d3d3d3dVdXVVVVVXd1V1dXV3d3d3VXV3VVd3d3dVdXV1d3d3d1V3d1dXV3d3VXd1VXdXd3dVd3dXV1d3d1V3dVVXV3d3VXd3d3d3d3dVd3d3d3d3d1V1VVVVVVVXV3d3d3d3d3dw==",
-        "mimeType": "image/x-mkcd-f4",
-        "tilemapTile": true
-    },
-    "tile4": {
-        "data": "hwQQABAAAABERERERERERFRVVVVVVVVFVEREREREREVURFRFRERERVRERVRERERFVFRVVUVEREVUVFVVVURFRVRUVVVVVUVFVFRVVVVVRUVUVFVVVURFRVRUVVVFRERFVERFVEREREVURFRFRERERVRERERERERFVFVVVVVVVUVERERERERERA==",
-        "mimeType": "image/x-mkcd-f4",
-        "tilemapTile": true
-    },
-    "tile5": {
-        "data": "hwQQABAAAACqqqqqqqqqqrq7u7u7u7uruqqqqqqqqqu6qqqqqqqqq7qqqqqqqqqruqqqqqqqqqu6qrurqqqqq7q6u7u7uqururq7u7u6q6u6qrurqqqqq7qqqqqqqqqruqqqqqqqqqu6qqqqqqqqq7qqqqqqqqqruru7u7u7u6uqqqqqqqqqqg==",
-        "mimeType": "image/x-mkcd-f4",
-        "tilemapTile": true
-    },
-    "level": {
-        "id": "level",
-        "mimeType": "application/mkcd-tilemap",
-        "data": "MTAxZTAwMGEwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDIwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA0MDAwMDAwMDAwMDAwMDQwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAzMDAwMDAwMDEwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMTAxMDEwMDAwMDEwMDAwMDUwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDEwMTAxMDEwMTAxMDEwMTAxMDEwMDAwMDAwMDAwMDUwMDAwMDAwMDAwMDUwMTAxMDEwMTAxMDEwMTAxMDEwMTAxMDEwMTAxMDEwMTAxMDEwMTAxMDEwMTAxMDEwMTAxMDEwMTAxMDEwMTAxMDEwMTAxMDEwMTAxMDEwMTAxMDEwMTAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAyMDAwMDIwMDAwMDAwMDAwMDAwMDAwMDIwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMjIwMjIwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDIwMjIyMjIyMjIwMjAwMDAwMDAwMDAyMDIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMg==",
-        "tileset": [
-            "myTiles.transparency16",
-            "myTiles.tile1",
-            "myTiles.tile3",
-            "myTiles.tile4",
-            "myTiles.tile5",
-            "myTiles.tile2"
-        ]
-    },
-    "*": {
-        "mimeType": "image/x-mkcd-f4",
-        "dataEncoding": "base64",
-        "namespace": "myTiles"
+Now that we have our player's plate, let's create apples that will fall from the top of the screen!
+
+## Step 1: Create variables
+
+First, let's create the variables we'll need to manage our apples.
+
+```blocks
+let apple: Sprite = null
+let maxApples = 0
+let appleSpeed = 0
+let currentApples = 0
+// Starting amount of apples
+currentApples = 0
+// Starting speed
+appleSpeed = 70
+// Maximum number of apples that can be on screen at once
+maxApples = 3
+```
+
+## Step 2: Create the dropNewApple function
+
+Now, let's create a function that will make a new apple appear and fall from the top of the screen.
+
+```blocks
+// This function creates and drops a new apple
+function dropNewApple () {
+    // Only create a new apple if we haven't reached the max
+    if (currentApples < maxApples) {
+        // Create a new apple
+        apple = sprites.create(img`
+            . . . . . . . e c 7 . . . . . . 
+            . . . . e e e c 7 7 e e . . . . 
+            . . c e e e e c 7 e 2 2 e e . . 
+            . c e e e e e c 6 e e 2 2 2 e . 
+            . c e e e 2 e c c 2 4 5 4 2 e . 
+            c e e e 2 2 2 2 2 2 4 5 5 2 2 e 
+            c e e 2 2 2 2 2 2 2 2 4 4 2 2 e 
+            c e e 2 2 2 2 2 2 2 2 2 2 2 2 e 
+            c e e 2 2 2 2 2 2 2 2 2 2 2 2 e 
+            c e e 2 2 2 2 2 2 2 2 2 2 2 2 e 
+            c e e 2 2 2 2 2 2 2 2 2 2 4 2 e 
+            . e e e 2 2 2 2 2 2 2 2 2 4 e . 
+            . 2 e e 2 2 2 2 2 2 2 2 4 2 e . 
+            . . 2 e e 2 2 2 2 2 4 4 2 e . . 
+            . . . 2 2 e e 4 4 4 2 e e . . . 
+            . . . . . 2 2 e e e e . . . . . 
+            `, SpriteKind.Food)
+        // Position and set velocity based on current difficulty
+        apple.setPosition(randint(10, 150), 0)
+        // Random speed variation
+        apple.setVelocity(0, randint(appleSpeed - 20, appleSpeed + 20))
+        // Increase apple counter
+        currentApples += 1
+        // Set up tracking for this specific apple
+        apple.setFlag(SpriteFlag.AutoDestroy, true)
     }
 }
 ```
 
-```template
-controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    mySprite.vy = -200
-})
-let mySprite: Sprite = null
-scene.setBackgroundColor(11)
-mySprite = sprites.create(img`
-    3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
-    3 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 3 3 1 1 1 3 3 3 1 3 3 3 1 3
-    3 1 3 3 1 3 3 1 3 1 1 3 3 3 1 3
-    3 1 3 3 1 3 3 1 3 3 1 3 3 3 1 3
-    3 1 3 3 1 1 1 3 3 3 1 3 3 3 1 3
-    3 1 3 3 1 3 3 3 3 3 1 3 3 3 1 3
-    3 1 3 3 1 3 3 3 3 1 1 1 3 3 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3
-    3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
-    `, SpriteKind.Player)
-mySprite.ay = 500
-controller.moveSprite(mySprite, 100, 0)
-tiles.setTilemap(tilemap`level`)
-```
+## Step 3: Create apples periodically
 
-## Start @unplugged
-
-
-In this tutorial, we'll create a way to win or lose our platformer game.
-
-![Editing our platformer](/static/skillmaps/platformer/platformer2.gif "Time to live dangerously!")
-
-
-## Camera
-
-Take a moment to move the player sprite around in the simulator.  
-
-Right now, the camera isn't following when the player moves off screen.  
-We can fix that!
-<hr/>
-
-🔲 Drag ``||scene:camera follow sprite [mySprite]||`` into the bottom 
-of the ``||loops:on start||`` container.
-<br/>
+Let's make apples appear randomly over time.
 
 ```blocks
-let mySprite: Sprite = null
-scene.setBackgroundColor(11)
-mySprite = sprites.create(img`
-    3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
-    3 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 3 3 1 1 1 3 3 3 1 3 3 3 1 3
-    3 1 3 3 1 3 3 1 3 1 1 3 3 3 1 3
-    3 1 3 3 1 3 3 1 3 3 1 3 3 3 1 3
-    3 1 3 3 1 1 1 3 3 3 1 3 3 3 1 3
-    3 1 3 3 1 3 3 3 3 3 1 3 3 3 1 3
-    3 1 3 3 1 3 3 3 3 1 1 1 3 3 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3
-    3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
-    `, SpriteKind.Player)
-mySprite.ay = 500
-controller.moveSprite(mySprite, 100, 0)
-tiles.setTilemap(tilemap`level`)
-// @highlight
-scene.cameraFollowSprite(mySprite)
-```
-
-## Start Tile 
-
-🎥 Now we can move around and the camera will follow 🎥  
-
-Unfortunately, our player is starting in dangerous position!
-
-By default, all sprites spawn in the middle of the screen.
-Let's change the game so your player starts somewhere safe.
-<hr/>
-
-🔲 Snap a ``||scene:place [mySprite] on top of random [ ]||`` block 
-into the bottom of the ``||loops:on start||`` container.
-
-🔲 Click the checkerboard tile and replace it with the green flag.
-<hr/>
-**Now your sprite starts on the green flag tile!**  
-
->> *Tip: If you want your sprite to start somewhere else, 
-you can move the green flag by editing the
-[__tilemap__](#tilemp "a grid of square tiles that makes up our background").
-
-```blocks
-let mySprite: Sprite = null
-scene.setBackgroundColor(11)
-mySprite = sprites.create(img`
-    3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
-    3 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 3 3 1 1 1 3 3 3 1 3 3 3 1 3
-    3 1 3 3 1 3 3 1 3 1 1 3 3 3 1 3
-    3 1 3 3 1 3 3 1 3 3 1 3 3 3 1 3
-    3 1 3 3 1 1 1 3 3 3 1 3 3 3 1 3
-    3 1 3 3 1 3 3 3 3 3 1 3 3 3 1 3
-    3 1 3 3 1 3 3 3 3 1 1 1 3 3 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3
-    3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
-    `, SpriteKind.Player)
-mySprite.ay = 500
-controller.moveSprite(mySprite, 100, 0)
-tiles.setTilemap(tilemap`level`)
-scene.cameraFollowSprite(mySprite)
-// @highlight
-tiles.placeOnRandomTile(mySprite, myTiles.tile3)
-```
-
-## Game Over Pt. 1
-
-💀 Time to add some *danger* to this game 💀  
-
-When the player overlaps the skull tile, we'll trigger a "GAME OVER".
-<hr/>
-
-🔲 Drag the ``||scene:on [sprite] of kind [Player] overlaps [ ] at [location]||`` container 
-into the workspace.
-
-🔲 Click the checkerboard image and change it to the skull tile.
-
-🔲 Snap a ``||game:game over <LOSE>||`` block into the new container.
-<br/>
-
-```blocks
-scene.onOverlapTile(SpriteKind.Player, myTiles.tile2, function (sprite, location) {
-    game.over(false)
+// Create new apples randomly
+game.onUpdateInterval(800, function () {
+    if (gameStarted) {
+        if (Math.percentChance(30)) {
+            dropNewApple()
+        }
+    }
 })
 ```
 
-## You Win Pt. 1
+## Step 4: Track destroyed apples
 
-🎈 We have a way to lose, let's add a way to win 🎈  
-<hr/>
-
-🔲 Drag another ``||scene:on [sprite] of kind [Player] overlaps [ ] at [location]||`` 
-container into the workspace.
-
-🔲 This time, change the checkerboard to the trophy tile.
-
-🔲 Snap a ``||game:game over <LOSE>||`` block into the new container and toggle 
-the &lt;LOSE&gt; switch to &lt;WIN&gt;!
-<br/>
+We need to keep track of how many apples are on screen by decreasing our counter when apples are destroyed.
 
 ```blocks
-scene.onOverlapTile(SpriteKind.Player, myTiles.tile4, function (sprite, location) {
-    game.over(true)
+sprites.onDestroyed(SpriteKind.Food, function (sprite) {
+    currentApples += -1
 })
 ```
 
-## Finished
+## Step 5: Create the player code
 
-**That's it!**
+Make sure we have our player code from the previous activity.
 
-Now we have a simple platformer that has a way to win and a way to lose.
+```blocks
+// Create the player's plate
+let plate = sprites.create(img`
+    ...............bbbbbbbbbbbbbbbbbbb...............
+    ...........bbbbdd111111111111111ddbbbb...........
+    ........bbbd1111111111111111111111111dbbb........
+    ......bbd11111111dddddddddddddd111111111dbb......
+    ....bbd1111111ddd11111111111111dddd1111111dbb....
+    ...bd111111ddd111111111111111111111ddd111111db...
+    ..bd11111ddd111ddddddddddddddddddd111ddd11111db..
+    .bd11111dd111dddd111111111111111dddd111dd11111db.
+    .b11111d111ddd111111111111111111111ddd111d11111b.
+    bd11111d1ddd1111111111111111111111111ddd1111111db
+    b11111d1ddd111111111111111111111111111ddd1d11111b
+    b11111ddddd111111111111111111111111111ddddd11111b
+    b11111ddddd111111111111111111111111111dddbd11111b
+    b111111dddd111111111111111111111111111dddb111111b
+    bd111111dddd1111111111111111111111111dddbd11111db
+    .b1111111dddd11111111111111111111111dddbd111111b.
+    .bd1111111dbbdd1111111111111111111dddbbd111111db.
+    ..bd11111111dbbdd111111111111111dddbbd1111111db..
+    ...bd111111111dbbbbbbdddddddddddddd111111111db...
+    ....bbd11111111111dbbbbbbbbbddd11111111111dbb....
+    ......bbdd11111111111111111111111111111ddbb......
+    ........bbbdd11111111111111111111111ddbbb........
+    ...........bbbbbddd11111111111dddbbbbb...........
+    ................bbbbbbbbbbbbbbbbb................
+    `, SpriteKind.Player)
+plate.setPosition(80, 110)
+controller.moveSprite(plate, 100, 0)
+plate.setStayInScreen(true)
 
-If you like, open the [__tilemap__](#tilemp "a grid of square tiles that makes up our background") 
-editor and design your own level. 
-<hr/> 
+// Show start message
+game.splash("Apple Catcher", "Press A to start")
+let gameStarted = true
+```
 
->> *Tip: Make sure you use the wall tool to mark anything you don't want your sprites
-to travel through!*
+## Complete
+
+🎮 Amazing work! Now you have apples falling from the sky. 🎮
+
+In the next activity, we'll add scoring so you can track how many apples you've caught!
