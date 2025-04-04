@@ -15,7 +15,7 @@
 * url: /tutorials/platformer/activity1
 * imageUrl: https://raw.githubusercontent.com/microsoft/pxt-skillmap-sample/main/img/platformer/activity1.png
 * tags: easy
-* next: platformer-activity2
+* next: apple-catcher-activity2
 
 ### apple-catcher-activity2
 
@@ -25,7 +25,7 @@
 * url: /tutorials/platformer/activity2
 * imageUrl: https://raw.githubusercontent.com/microsoft/pxt-skillmap-sample/main/img/platformer/activity2.png
 * tags: easy, tiles
-* next: platformer-activity3
+* next: apple-catcher-activity3
 
 ### apple-catcher-activity3
 
@@ -35,7 +35,7 @@
 * url: /tutorials/platformer/activity3
 * imageUrl: https://raw.githubusercontent.com/microsoft/pxt-skillmap-sample/main/img/platformer/activity3.png
 * tags: intermediate, overlaps
-* next: platformer-activity4
+* next: apple-catcher-activity4
 
 ### apple-catcher-activity4
 
