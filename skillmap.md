@@ -78,7 +78,7 @@
 * name: Simple Platformer
 * type: tutorial
 * description: Learn how to make a player character that can jump and move around a tilemap.
-* url: https://github.com/ezagal1004/pxt-skillmap-sample/tutorials/platformer/activity1
+* url: https://github.com/ezagal1004/pxt-skillmap-sample/blob/main/tutorials/platformer/activity1.md
 * imageUrl: https://raw.githubusercontent.com/microsoft/pxt-skillmap-sample/main/img/platformer/activity1.png
 * tags: easy
 * next: platformer-activity2
