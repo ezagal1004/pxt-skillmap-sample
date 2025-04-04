@@ -46,7 +46,7 @@ game.onUpdateInterval(10000, function () {
 
 ## Step 3: Review the dropNewApple function
 
-Let's make sure our apple dropping function works with the new difficulty system.
+Let's make sure our apple dropping function works with the new difficulty system. This function creates apples with random speeds based on our difficulty level.
 
 ```blocks
 // This function creates and drops a new apple
@@ -66,4 +66,19 @@ function dropNewApple () {
             c e e 2 2 2 2 2 2 2 2 2 2 2 2 e 
             c e e 2 2 2 2 2 2 2 2 2 2 2 2 e 
             c e e 2 2 2 2 2 2 2 2 2 2 4 2 e 
-            . e e e 2 2 2 2 2 2
+            . e e e 2 2 2 2 2 2 2 2 2 4 e . 
+            . 2 e e 2 2 2 2 2 2 2 2 4 2 e . 
+            . . 2 e e 2 2 2 2 2 4 4 2 e . . 
+            . . . 2 2 e e 4 4 4 2 e e . . . 
+            . . . . . 2 2 e e e e . . . . . 
+            `, SpriteKind.Food)
+        // Position and set velocity based on current difficulty
+        apple.setPosition(randint(10, 150), 0)
+        // Random speed variation
+        apple.setVelocity(0, randint(appleSpeed - 20, appleSpeed + 20))
+        // Increase apple counter
+        currentApples += 1
+        // Set up tracking for this specific apple
+        apple.setFlag(SpriteFlag.AutoDestroy, true)
+    }
+}
