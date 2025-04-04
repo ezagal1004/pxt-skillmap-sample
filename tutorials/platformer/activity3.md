@@ -1,547 +1,141 @@
-# Enemy Follows
+# Activity 3: Add Scoring
 
-```jres
-{
-    "transparency16": {
-        "data": "hwQQABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-        "mimeType": "image/x-mkcd-f4",
-        "tilemapTile": true
-    },
-    "tile1": {
-        "data": "hwQQABAAAADMzMzMzMzMzLy7u7u7u7vLvMvMzMzMvMu8vMzMzMzLy7zMy8zMvMzLvMy8zMzLzMu8zMzLvMzMy7zMzLzLzMzLvMzMvMvMzMu8zMzLvMzMy7zMvMzMy8zLvMzLzMy8zMu8vMzMzMzLy7zLzMzMzLzLvLu7u7u7u8vMzMzMzMzMzA==",
-        "mimeType": "image/x-mkcd-f4",
-        "tilemapTile": true
-    },
-    "tile2": {
-        "data": "hwQQABAAAAAiIiIiIiIiIkJEREREREQkQiIiIiIiIiRCIiIiIiIiJEIiREQiIiIkQkJERCIkJCRCQiREJCQkJEJCREQiQiIkQkJERCRCIiRCQiREIiQkJEIiREQkJCQkQiIiIiIiIiRCIiIiIiIiJEIiIiIiIiIkQkRERERERCQiIiIiIiIiIg==",
-        "mimeType": "image/x-mkcd-f4",
-        "tilemapTile": true
-    },
-    "tile3": {
-        "data": "hwQQABAAAAB3d3d3d3d3d1dVVVVVVVV1V3d3d3d3d3VXd3d3d3d3dVdXVVVVVXd1V1dXV3d3d3VXV3VVd3d3dVdXV1d3d3d1V3d1dXV3d3VXd1VXdXd3dVd3dXV1d3d1V3dVVXV3d3VXd3d3d3d3dVd3d3d3d3d1V1VVVVVVVXV3d3d3d3d3dw==",
-        "mimeType": "image/x-mkcd-f4",
-        "tilemapTile": true
-    },
-    "tile4": {
-        "data": "hwQQABAAAABERERERERERFRVVVVVVVVFVEREREREREVURFRFRERERVRERVRERERFVFRVVUVEREVUVFVVVURFRVRUVVVVVUVFVFRVVVVVRUVUVFVVVURFRVRUVVVFRERFVERFVEREREVURFRFRERERVRERERERERFVFVVVVVVVUVERERERERERA==",
-        "mimeType": "image/x-mkcd-f4",
-        "tilemapTile": true
-    },
-    "tile5": {
-        "data": "hwQQABAAAACqqqqqqqqqqrq7u7u7u7uruqqqqqqqqqu6qqqqqqqqq7qqqqqqqqqruqqqqqqqqqu6qrurqqqqq7q6u7u7uqururq7u7u6q6u6qrurqqqqq7qqqqqqqqqruqqqqqqqqqu6qqqqqqqqq7qqqqqqqqqruru7u7u7u6uqqqqqqqqqqg==",
-        "mimeType": "image/x-mkcd-f4",
-        "tilemapTile": true
-    },
-    "level": {
-        "id": "level",
-        "mimeType": "application/mkcd-tilemap",
-        "data": "MTAxZTAwMGEwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDIwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA0MDAwMDAwMDAwMDAwMDQwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAzMDAwMDAwMDEwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMTAxMDEwMDAwMDEwMDAwMDUwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDEwMTAxMDEwMTAxMDEwMTAxMDEwMDAwMDAwMDAwMDUwMDAwMDAwMDAwMDUwMTAxMDEwMTAxMDEwMTAxMDEwMTAxMDEwMTAxMDEwMTAxMDEwMTAxMDEwMTAxMDEwMTAxMDEwMTAxMDEwMTAxMDEwMTAxMDEwMTAxMDEwMTAxMDEwMTAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAyMDAwMDIwMDAwMDAwMDAwMDAwMDAwMDIwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMjIwMjIwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDIwMjIyMjIyMjIwMjAwMDAwMDAwMDAyMDIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMg==",
-        "tileset": [
-            "myTiles.transparency16",
-            "myTiles.tile1",
-            "myTiles.tile3",
-            "myTiles.tile4",
-            "myTiles.tile5",
-            "myTiles.tile2"
-        ]
-    },
-    "*": {
-        "mimeType": "image/x-mkcd-f4",
-        "dataEncoding": "base64",
-        "namespace": "myTiles"
-    }
-}
-```
+## Introduction @showdialog
 
-```template
-scene.onOverlapTile(SpriteKind.Player, myTiles.tile2, function (sprite, location) {
-    game.over(false)
-})
-scene.onOverlapTile(SpriteKind.Player, myTiles.tile4, function (sprite, location) {
-    game.over(true)
-})
-controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    mySprite.vy = -200
-})
-let mySprite: Sprite = null
-scene.setBackgroundColor(11)
-mySprite = sprites.create(img`
-    3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
-    3 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 3 3 1 1 1 3 3 3 1 3 3 3 1 3
-    3 1 3 3 1 3 3 1 3 1 1 3 3 3 1 3
-    3 1 3 3 1 3 3 1 3 3 1 3 3 3 1 3
-    3 1 3 3 1 1 1 3 3 3 1 3 3 3 1 3
-    3 1 3 3 1 3 3 3 3 3 1 3 3 3 1 3
-    3 1 3 3 1 3 3 3 3 1 1 1 3 3 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3
-    3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
-    `, SpriteKind.Player)
-mySprite.ay = 500
-controller.moveSprite(mySprite, 100, 0)
-tiles.setTilemap(tilemap`level`)
-scene.cameraFollowSprite(mySprite)
-tiles.placeOnRandomTile(mySprite, myTiles.tile3)
+![Game screenshot](/static/skillmap/apple-catcher/scoring.png)
+
+Now let's add scoring and lives to our game. Players will earn points for catching apples and lose lives when they miss them!
+
+## Step 1: Set up game info
+
+First, let's set up the score and life counters.
+
+```blocks
+// Set up game info
+info.setScore(0)
 info.setLife(3)
 ```
 
-## Start @unplugged
+## Step 2: Add catching logic
 
-In this lesson, we'll take what we made in previous tutorials and add simple enemies.  
-
-We'll also use a sprite overlap event to have enemies interact with the player sprite.
-
-![Editing our platformer](/static/skillmaps/platformer/platformer3.gif "Time to live dangerously!")
-
-
-## Spawning enemies pt. 1
-
-**Let's start by choosing a location to [__*spawn*__](#spawnd "make appear") 
-some enemies on the tilemap.**  
-
-We'll use purple **[ ! ]** tiles as enemy spawn points.
-<hr/>
-
-🔲 Drag out a ``||loops: for element [value] of [list]||`` [__loop__](#loopd "a segment of code that runs multiple times in a row")
-and snap it into the bottom of the ``||loops: on start||`` container.
-
-The [__*list*__](#listical  "ordered group of items") we need in the header of that 👆 loop 
-is the list of saved location for each of the **[ ! ]** blocks. 
-Fortunately, we have a piece of code that tells us where those are.
-
-🔲 Find the ``||scene: array of all [ ] locations||`` argument block and 
-drag it into the header of the new loop where the **list** argument is.
-
-🔲 Click on the checkerboard and change it to the **[ ! ]** tile.
-<br/>
+Now, let's add code to detect when the player catches an apple with their plate.
 
 ```blocks
-let mySprite: Sprite = null
-scene.setBackgroundColor(11)
-mySprite = sprites.create(img`
-    3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
-    3 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 3 3 1 1 1 3 3 3 1 3 3 3 1 3
-    3 1 3 3 1 3 3 1 3 1 1 3 3 3 1 3
-    3 1 3 3 1 3 3 1 3 3 1 3 3 3 1 3
-    3 1 3 3 1 1 1 3 3 3 1 3 3 3 1 3
-    3 1 3 3 1 3 3 3 3 3 1 3 3 3 1 3
-    3 1 3 3 1 3 3 3 3 1 1 1 3 3 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3
-    3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
-    `, SpriteKind.Player)
-mySprite.ay = 500
-controller.moveSprite(mySprite, 100, 0)
-tiles.setTilemap(tilemap`level`)
-scene.cameraFollowSprite(mySprite)
-tiles.placeOnRandomTile(mySprite, myTiles.tile3)
-info.setLife(3)
-// @highlight
-for (let value of tiles.getTilesByType(myTiles.tile5)) {
-
-}
-```
-
-## A little lesson @unplugged
-
-Now our loop will run for each tile location.  
-
-Each time through the loop, the argument **"value"** will contain another 
-location on the tilemap!
-
-
-## Spawning enemies pt. 3
-
-👾 Time to spawn some enemies 👾 
-<hr/>
-
-🔲 Drag ``||variables: set [mySprite2] to sprite [ ] of kind [player]||`` 
-into the new loop.
-
-🔲 Click the **mySprite2** [__*variable*__](#varied "a label that holds the place for something that can change") 
-and choose to create a **new variable** called **myEnemy**. 
-
-🔲 Click the grey sprite rectangle inside the new block to draw an image for the enemy
-(or choose one from the gallery.)
-
-
-🔲 Set the sprite kind to **Enemy**  
-<br/>
-
-```blocks
-let myEnemy: Sprite = null
-let mySprite: Sprite = null
-scene.setBackgroundColor(11)
-mySprite = sprites.create(img`
-    3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
-    3 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 3 3 1 1 1 3 3 3 1 3 3 3 1 3
-    3 1 3 3 1 3 3 1 3 1 1 3 3 3 1 3
-    3 1 3 3 1 3 3 1 3 3 1 3 3 3 1 3
-    3 1 3 3 1 1 1 3 3 3 1 3 3 3 1 3
-    3 1 3 3 1 3 3 3 3 3 1 3 3 3 1 3
-    3 1 3 3 1 3 3 3 3 1 1 1 3 3 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3
-    3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
-    `, SpriteKind.Player)
-mySprite.ay = 500
-controller.moveSprite(mySprite, 100, 0)
-tiles.setTilemap(tilemap`level`)
-scene.cameraFollowSprite(mySprite)
-tiles.placeOnRandomTile(mySprite, myTiles.tile3)
-info.setLife(3)
-for (let value of tiles.getTilesByType(myTiles.tile5)) {
-// @highlight
-    myEnemy = sprites.create(img`
-        a a a a a a a a a a a a a a a a
-        a b b b b b b b b b b b b b b a
-        a b a a a a a a a a a a a a b a
-        a b a a b b a a a a b b a a b a
-        a b a a a a b a a b a a a a b a
-        a b a a a a a a a a a a a a b a
-        a b a a a b a a a a b a a a b a
-        a b a a a b a a a a b a a a b a
-        a b a a a a a a a a a a a a b a
-        a b a a a a a a a a a a a a b a
-        a b a a a b b b b b b a a a b a
-        a b a a b a a a a a a b a a b a
-        a b a a a a a a a a a a a a b a
-        a b a a a a a a a a a a a a b a
-        a b b b b b b b b b b b b b b a
-        a a a a a a a a a a a a a a a a
-        `, SpriteKind.Enemy)
-}
-```
-
-## Spawning enemies pt. 3
-Our enemies are spawning now, but they're all hanging out in one location.
-
-Let's start each of them on a different **[ ! ]** tile. (Each location will be 
-stored in the **value** variable at some point as we move through
-the **for element** loop.)
-<hr/>
-
-🔲 Drag a ``||scene: place [mySprite] on top of tilemap col [0] row [0]||`` block 
-to the bottom of the **for element** loop.
-
-🔲 Change the sprite variable to **myEnemy** and replace the  ``||scene: tilemap col [0] row [0]||``
-argument block with the ``||variables: value||`` argument from the header of the
-**for element** loop.
-<br/>
-
-```blocks
-let myEnemy: Sprite = null
-let mySprite: Sprite = null
-scene.setBackgroundColor(11)
-mySprite = sprites.create(img`
-    3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
-    3 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 3 3 1 1 1 3 3 3 1 3 3 3 1 3
-    3 1 3 3 1 3 3 1 3 1 1 3 3 3 1 3
-    3 1 3 3 1 3 3 1 3 3 1 3 3 3 1 3
-    3 1 3 3 1 1 1 3 3 3 1 3 3 3 1 3
-    3 1 3 3 1 3 3 3 3 3 1 3 3 3 1 3
-    3 1 3 3 1 3 3 3 3 1 1 1 3 3 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3
-    3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
-    `, SpriteKind.Player)
-mySprite.ay = 500
-controller.moveSprite(mySprite, 100, 0)
-tiles.setTilemap(tilemap`level`)
-scene.cameraFollowSprite(mySprite)
-tiles.placeOnRandomTile(mySprite, myTiles.tile3)
-info.setLife(3)
-for (let value of tiles.getTilesByType(myTiles.tile5)) {
-    myEnemy = sprites.create(img`
-        a a a a a a a a a a a a a a a a
-        a b b b b b b b b b b b b b b a
-        a b a a a a a a a a a a a a b a
-        a b a a b b a a a a b b a a b a
-        a b a a a a b a a b a a a a b a
-        a b a a a a a a a a a a a a b a
-        a b a a a b a a a a b a a a b a
-        a b a a a b a a a a b a a a b a
-        a b a a a a a a a a a a a a b a
-        a b a a a a a a a a a a a a b a
-        a b a a a b b b b b b a a a b a
-        a b a a b a a a a a a b a a b a
-        a b a a a a a a a a a a a a b a
-        a b a a a a a a a a a a a a b a
-        a b b b b b b b b b b b b b b a
-        a a a a a a a a a a a a a a a a
-        `, SpriteKind.Enemy)
-        // @highlight
-    tiles.placeOnTile(myEnemy, value)
-}
-```
-
-## Enemy follow
-💤 Did you notice that we have the laziest enemies ever? 💤
-
-Let's wake-up our sprites and get them following our player.
-<hr/>
-🔲 Snap a ``||sprites: set [myEnemy] follow [mySprite]||`` block 
-into the bottom of the **for element** loop.
-
-🔲 Change the first sprite argument to **myEnemy** and the second to **mySprite**.
-
-🔲 Press the **⊕** on the new block and change the speed to **30**.
-<br/>
-
-```blocks
-let myEnemy: Sprite = null
-let mySprite: Sprite = null
-scene.setBackgroundColor(11)
-mySprite = sprites.create(img`
-    3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
-    3 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 3 3 1 1 1 3 3 3 1 3 3 3 1 3
-    3 1 3 3 1 3 3 1 3 1 1 3 3 3 1 3
-    3 1 3 3 1 3 3 1 3 3 1 3 3 3 1 3
-    3 1 3 3 1 1 1 3 3 3 1 3 3 3 1 3
-    3 1 3 3 1 3 3 3 3 3 1 3 3 3 1 3
-    3 1 3 3 1 3 3 3 3 1 1 1 3 3 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 3 3 3 3 3 3 3 3 3 3 3 3 1 3
-    3 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3
-    3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
-    `, SpriteKind.Player)
-mySprite.ay = 500
-controller.moveSprite(mySprite, 100, 0)
-tiles.setTilemap(tilemap`level`)
-scene.cameraFollowSprite(mySprite)
-tiles.placeOnRandomTile(mySprite, myTiles.tile3)
-info.setLife(3)
-for (let value of tiles.getTilesByType(myTiles.tile5)) {
-    myEnemy = sprites.create(img`
-        a a a a a a a a a a a a a a a a
-        a b b b b b b b b b b b b b b a
-        a b a a a a a a a a a a a a b a
-        a b a a b b a a a a b b a a b a
-        a b a a a a b a a b a a a a b a
-        a b a a a a a a a a a a a a b a
-        a b a a a b a a a a b a a a b a
-        a b a a a b a a a a b a a a b a
-        a b a a a a a a a a a a a a b a
-        a b a a a a a a a a a a a a b a
-        a b a a a b b b b b b a a a b a
-        a b a a b a a a a a a b a a b a
-        a b a a a a a a a a a a a a b a
-        a b a a a a a a a a a a a a b a
-        a b b b b b b b b b b b b b b a
-        a a a a a a a a a a a a a a a a
-        `, SpriteKind.Enemy)
-    tiles.placeOnTile(myEnemy, value)
-    myEnemy.follow(mySprite, 30)
-}
-```
-
-## Damage pt. 1 @unplugged
-
-Now the enemies should be moving toward the player.
-
-What happens when the enemies reach the player? **Nothing?!?**
-Well, that's no fun.  
-Let's add some code to make this more exciting.  
-😈👿😈 &nbsp;  😱  
-<hr/>
-
-**Our player and enemies might meet under a couple of different** 
-[**_conditions_**](#condy "thing we need to know before deciding what happens next"):
-
-1. **If the player jumps on an enemy, the enemy is destroyed**
-
-2. **If the player runs into an enemy, 
-the player takes damage and the enemy is destroyed**
-
-<hr/>
-We'll need an **on sprite overlap** event to know if these happen!
-
-## Damage pt. 2
-In both overlap cases, we want to destroy the enemy sprite...so 
-let's code that part first.  
-💥👿💥
-<hr/>
-
-🔲 From the ``||sprites: Sprites||`` category, drag an 
-``||sprites: on [sprite] of kind [Player] overlaps [otherSprite] of kind [Player]||`` 
-[__*event*__](#eventTime "element that makes something happen when a certain action is performed")
- container into the workspace.
-
-🔲 Leave the first kind as **Player** and change the second kind to **Enemy**.
-
-🔲 Snap a ``||sprites: destroy [mySprite]  ⊕||`` block into the new event container.
-
-🔲 Drag the ``||variables: otherSprite||`` argument from the **on sprite overlaps** 
-event to replace the ``||variables: mySprite||`` variable inside the destroy block.
-
-```blocks
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
-    otherSprite.destroy()
+// Check if the apple is caught by the plate
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
+    // Apple is caught!
+    sprites.destroy(otherSprite)
+    info.changeScoreBy(1)
+    // Play catch sound
+    music.play(music.melodyPlayable(music.baDing), music.PlaybackMode.UntilDone)
 })
 ```
 
-## Damage pt. 4 @unplugged
+## Step 3: Add missing apple logic
 
-❗ Here comes the exciting part ❗
-
-We need to figure out whether the enemy was **jumped on** or **run into**.  
-**_THEN_**, based on that 
-[**_condition_**](#condy "thing we need to know before deciding what happens next"),
- we need to run different code.
-
-The ``||logic:if <true> then||`` block can make that happen.  
-
-```block
-    if (true) {
-    }
-```
-<hr/>
-
-
-## Damage pt. 5
-
-🔲 Start by adding an ``||logic:if <true> then||`` container to the end
-of the newest **on sprite overlaps** container. 
-<hr/>
-The next part will take a little deep thinking  🤯
-
-In order to have reached the ``||logic:if <true> then||`` container, the 
-program must already know that an enemy has overlapped the player. 
-Now we just have to determine whether or not the player jumped on the enemy
-from the top.  
-
-In this case, we want to check that the bottom of the player was higher
-than the center (**y**) of the enemy. Here's how to do that:
-
-🔲 Drag out a ``||logic:0 < 0||`` logic argument block and snap it into
-``||logic:if <true> then||`` to replace the ** `<true>` ** argument.
-
-🔲 On the left-hand side of the **<**, place a ``||sprites:[mySprite] [x]||`` block and change 
-the **x** to **bottom**, and replace **mySprite** with the **sprite** 
-variable from the **on sprite overlaps** header.
-
-🔲 Right-click on the logic argument that you just finished to duplicate it. 
-
-🔲 Place the duplicate block to the right of the **<**. Replace **bottom** 
-with **y** and replace **sprite** with **otherSprite**.  
-<br/>
-
+Let's add code to detect when an apple falls off the bottom of the screen without being caught.
 
 ```blocks
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
-    otherSprite.destroy()
-    if (sprite.bottom < otherSprite.y) {
+// Main game update loop to check for missed apples
+game.onUpdate(function () {
+    // Find all apples that have gone off the bottom of the screen
+    for (let apple2 of sprites.allOfKind(SpriteKind.Food)) {
+        if (apple2.y >= 120) {
+            // Apple missed - decrease life
+            info.changeLifeBy(-1)
+            // Destroy the apple
+            sprites.destroy(apple2)
+            // Play miss sound
+            music.play(music.melodyPlayable(music.wawawawaa), music.PlaybackMode.InBackground)
+        }
     }
 })
 ```
 
-## Damage pt. 5.5
-To add more style, let's make the player bounce after they've jumped on an enemy.
-<hr/>
+## Step 4: Add game over check
 
-🔲 Snap a ``||sprites:set [mySprite] [x] to ||`` block into the empty **if/then** 
-logic container and replace **mySprite** with **sprite**.
-
-🔲 Replace **x** with **vy (velocity y)** using the dropdown menu.
-
-🔲 Change the value from **0** to **-100**.  
-<br/>
-
+Let's check if the player has run out of lives, and end the game if they have.
 
 ```blocks
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
-    otherSprite.destroy()
-    if (sprite.bottom < otherSprite.y) {
-        sprite.vy = -100
-    } 
-})
-```
-
-
-## Damage pt. 6 @unplugged
-
-Now we've written code that checks if the player has bounced on an enemy.  
-**But what if it didn't?**
-
-We need to add an option in case the player and enemy overlapped in a 
-different way.  This catch-all condition is called an **else** clause. 
-<hr/>
-
-To add an **else** clause to our **if/then** logic, simply press
-the **⊕** at the bottom-left corner of the **if/then** container and one will appear!
-
-
-```block
-
-  sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
-    otherSprite.destroy()
-    // @highlight
-    if (sprite.bottom < otherSprite.y) {
-        sprite.vy = -100
-    } else {
+// Main game update loop to check for missed apples
+game.onUpdate(function () {
+    // Find all apples that have gone off the bottom of the screen
+    for (let apple2 of sprites.allOfKind(SpriteKind.Food)) {
+        if (apple2.y >= 120) {
+            // Apple missed - decrease life
+            info.changeLifeBy(-1)
+            // Destroy the apple
+            sprites.destroy(apple2)
+            // Play miss sound
+            music.play(music.melodyPlayable(music.wawawawaa), music.PlaybackMode.InBackground)
+        }
+    }
+    
+    // Game over check
+    if (info.life() <= 0) {
+        game.over(false)
     }
 })
 ```
 
-## Damage pt. 6.6
+## Step 5: Put it all together
 
-Now that we have an **else** clause, we can use it
-for anything that needs to run when the player and enemy
-overlap in a non-jumping way. 
-<hr/>
-
-🔲 To remove a life from the player under that condition, 
-snap a ``||info: change life by [-1]||`` block into the empty **else** clause.  
-<br/>
-
-```ghost
-        info.changeLifeBy(-1)
-```
+Let's make sure we have all the code from previous activities too.
 
 ```blocks
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
-    otherSprite.destroy()
-    if (sprite.bottom < otherSprite.y) {
-        sprite.vy = -100
-    } else {
-    // @highlight
-        info.changeLifeBy(-1)
-    }
-})
+let apple: Sprite = null
+let maxApples = 0
+let appleSpeed = 0
+let currentApples = 0
+// Starting amount of apples
+currentApples = 0
+// Starting speed
+appleSpeed = 70
+// Maximum number of apples that can be on screen at once
+maxApples = 3
+
+// Create the player's plate
+let plate = sprites.create(img`
+    ...............bbbbbbbbbbbbbbbbbbb...............
+    ...........bbbbdd111111111111111ddbbbb...........
+    ........bbbd1111111111111111111111111dbbb........
+    ......bbd11111111dddddddddddddd111111111dbb......
+    ....bbd1111111ddd11111111111111dddd1111111dbb....
+    ...bd111111ddd111111111111111111111ddd111111db...
+    ..bd11111ddd111ddddddddddddddddddd111ddd11111db..
+    .bd11111dd111dddd111111111111111dddd111dd11111db.
+    .b11111d111ddd111111111111111111111ddd111d11111b.
+    bd11111d1ddd1111111111111111111111111ddd1111111db
+    b11111d1ddd111111111111111111111111111ddd1d11111b
+    b11111ddddd111111111111111111111111111ddddd11111b
+    b11111ddddd111111111111111111111111111dddbd11111b
+    b111111dddd111111111111111111111111111dddb111111b
+    bd111111dddd1111111111111111111111111dddbd11111db
+    .b1111111dddd11111111111111111111111dddbd111111b.
+    .bd1111111dbbdd1111111111111111111dddbbd111111db.
+    ..bd11111111dbbdd111111111111111dddbbd1111111db..
+    ...bd111111111dbbbbbbdddddddddddddd111111111db...
+    ....bbd11111111111dbbbbbbbbbddd11111111111dbb....
+    ......bbdd11111111111111111111111111111ddbb......
+    ........bbbdd11111111111111111111111ddbbb........
+    ...........bbbbbddd11111111111dddbbbbb...........
+    ................bbbbbbbbbbbbbbbbb................
+    `, SpriteKind.Player)
+plate.setPosition(80, 110)
+controller.moveSprite(plate, 100, 0)
+plate.setStayInScreen(true)
+
+// Set up game info
+info.setScore(0)
+info.setLife(3)
+
+// Show start message
+game.splash("Apple Catcher", "Press A to start")
+let gameStarted = true
 ```
 
-## Finish
-🔥 Fantastic 🔥
+## Complete
 
-The basic enemies tutorial is complete!  
-Try defeating the level as is, then open the tilemap editor 
-and see what happens if you add more spawn points.
+🎮 Excellent! Now your game keeps score and has a lives system. 🎮
+
+In the next activity, we'll make the game more challenging by increasing the difficulty over time!
