@@ -30,7 +30,7 @@
 * tags: easy
 * next: space-activity2
 
-* url: https://github.com/microsoft/pxt-skillmap-sample/tutorials/space/activity1
+* url: https://github.com/ezagal1004/pxt-skillmap-sample/tutorials/space/activity1
 * imageUrl: https://raw.githubusercontent.com/microsoft/pxt-skillmap-sample/main/img/space/activity1.png
 
 ### space-activity2
